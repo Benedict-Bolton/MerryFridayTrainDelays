@@ -1,0 +1,57 @@
+<!-- Important Comment:
+Am Going to import better background than simple white (its in static). However want to check with Z the preferred method for creating opacity in the background-->
+
+<head>
+  <link rel="shortcut icon" href="/static/icon.ico" />
+  <style>
+  section {
+
+        border-radius: 10px;
+        padding: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 500px
+        background: #D3D3D3;
+        color: black;
+    }
+    body {
+      background-color:white;
+    }
+    .title{
+      color: black;
+      font-weight: normal;
+      font-family: 'Garamond', serif;
+      font-size:30px;
+      line-height: 32px;
+      text-shadow: 0 2px white, 0 3px #777;
+    }
+    .content{
+      color: white;
+      font-weight: normal;
+      color: #333333;
+      font-family: "Copperplate Gothic Light", sans-serif;
+      font-size:18px;
+      line-height: 20px;
+    }
+  </style>
+</head>
+
+<center>
+<section>
+<div class="title">
+  <br><br>
+<h1>     The Amount of Weight you have Lost is.....*   </h1>
+</div>
+<div class="content">
+  <b>
+{% if loss is defined %}
+  {{loss}}
+{% else %}
+  Whoops! Something's not right here.....
+{% endif %}
+</b>
+</div>
+</section>
+</center>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<p style="font-size=6px;"> * Please keep in mind that these numbers are multiplied by 10^6 and are not to be used for any scientific, medical, or intelligent applications</p>

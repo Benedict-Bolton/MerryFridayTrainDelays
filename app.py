@@ -10,16 +10,22 @@ def home():
         return render_template('home.html')
     else:
         origin = request.form['start']
+        print origin
         destination= request.form['end']
+        print destination
         arrival_time=1343641500
         mapsurl = "https://maps.googleapis.com/maps/api/directions/json?origin=%s&destination=%s&arrival_time=%s&mode=transit&key=AIzaSyBWPZcD2dgi1T0F_dNC1SThe64a-rfdkgY"%(origin,destination,arrival_time)
         mapsrequest = urllib2.urlopen(mapsurl)
         mapsresult = mapsrequest.read()
         mapsD = json.loads(mapsresult)['routes'][0]['legs'][0] # a dictionary with api data stuff
         start_lat = mapsD['start_location']['lat']
+        print start_lat
         start_lng = mapsD['start_location']['lng']
+        print start_lng
         end_lat = mapsD['end_location']['lat']
+        print end_lat
         end_lng = mapsD['end_location']['lng']
+        print end_lng
 
         elevurl = "https://maps.googleapis.com/maps/api/elevation/json?locations=%f,%f|%f,%f&key=AIzaSyBWPZcD2dgi1T0F_dNC1SThe64a-rfdkgY"%(start_lat,start_lng,end_lat,end_lng)
         elevrequest = urllib2.urlopen(elevurl)
