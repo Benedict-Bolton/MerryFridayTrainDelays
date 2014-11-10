@@ -9,12 +9,12 @@ def home():
     if request.method=="GET":
         return render_template('home.html')
     else:
-        origin = request.form['start']
+        origin = request.form['start'].replace(' ','+')
         print origin
-        destination= request.form['end']
+        destination= request.form['end'].replace(' ','+')
         print destination
         arrival_time=1343641500
-        mapsurl = "https://maps.googleapis.com/maps/api/directions/json?origin=%s&destination=%s&arrival_time=%s&mode=transit&key=AIzaSyBWPZcD2dgi1T0F_dNC1SThe64a-rfdkgY"%(origin,destination,arrival_time)
+        mapsurl = "https://maps.googleapis.com/maps/api/directions/json?origin=%s&destination=%s&arrival_time=%s&mode=walking&key=AIzaSyBWPZcD2dgi1T0F_dNC1SThe64a-rfdkgY"%(origin,destination,arrival_time)
         mapsrequest = urllib2.urlopen(mapsurl)
         mapsresult = mapsrequest.read()
         mapsD = json.loads(mapsresult)['routes'][0]['legs'][0] # a dictionary with api data stuff
@@ -32,16 +32,20 @@ def home():
         elevresult = elevrequest.read()
         elevD = json.loads(elevresult)['results']
         start_elev = elevD[0]['elevation'] # in meters
+        print start_elev
         end_elev = elevD[1]['elevation'] # in meters
-
+        print end_elev
+        
         ##weight calculations
-        G = 6.67*pow(10,-11)
-        M = 5.97*pow(10,24)
-        m = request.form['weight'] ##should be an float/int
+        G = 6.673*pow(10,-11)
+        M = 5.98*pow(10,24)
+        m = int(request.form['weight']) ##should be an float/int
         R = 6371000
         weight_initial = (G*M*m)/pow(R+start_elev,2)
         weight_final = (G*M*m)/pow(R+end_elev,2)
         ##final-initial = change, so initial-final = loss, i think
+        print weight_initial/m
+        print weight_final/m
         return render_template('results.html',loss=(weight_initial-weight_final))
 
 if __name__=="__main__":
