@@ -17,7 +17,10 @@ def home():
         mapsurl = "https://maps.googleapis.com/maps/api/directions/json?origin=%s&destination=%s&arrival_time=%s&mode=walking&key=AIzaSyBWPZcD2dgi1T0F_dNC1SThe64a-rfdkgY"%(origin,destination,arrival_time)
         mapsrequest = urllib2.urlopen(mapsurl)
         mapsresult = mapsrequest.read()
-        mapsD = json.loads(mapsresult)['routes'][0]['legs'][0] # a dictionary with api data stuff
+        try:
+            mapsD = json.loads(mapsresult)['routes'][0]['legs'][0] # a dictionary with api data stuff
+        except:
+            return render_template('home.html') ## error handling in case google maps can't find path from start to end
         start_lat = mapsD['start_location']['lat']
         print start_lat
         start_lng = mapsD['start_location']['lng']
@@ -37,8 +40,8 @@ def home():
         print end_elev
         
         ##weight calculations
-        G = 6.673*pow(10,-11)
-        M = 5.98*pow(10,24)
+        G = 6.67384*pow(10,-11)
+        M = 5.9726*pow(10,24)
         m = int(request.form['weight']) ##should be an float/int
         R = 6371000
         weight_initial = (G*M*m)/pow(R+start_elev,2)
@@ -46,7 +49,10 @@ def home():
         ##final-initial = change, so initial-final = loss, i think
         print weight_initial/m
         print weight_final/m
-        return render_template('results.html',loss=(weight_initial-weight_final))
+        loss = weight_initial-weight_final # in Newtons
+        loss = loss / 4.44822162825 # in pounds
+        loss = loss * 100 # in more impressive pounds
+        return render_template('results.html',loss=loss)
 
 if __name__=="__main__":
     app.debug = True
