@@ -38,7 +38,7 @@ def home():
         print start_elev
         end_elev = elevD[1]['elevation'] # in meters
         print end_elev
-        
+
         ##weight calculations
         G = 6.67384*pow(10,-11)
         M = 5.9726*pow(10,24)
@@ -51,7 +51,7 @@ def home():
         print weight_final/m
         loss = weight_initial-weight_final # in Newtons
         loss = loss / 4.44822162825 # in pounds
-        loss = loss * 100 # in more impressive pounds
+        loss = loss * 1000 # in more impressive pounds
         return render_template('results.html',loss=loss)
 
 if __name__=="__main__":
